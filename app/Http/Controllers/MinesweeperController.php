@@ -8,7 +8,22 @@ class MinesweeperController extends Controller
 {
     public function index(Request $request){
 
-        return view('Minesweeper.index');
+        $columns = $rows = 5;
+
+        $data = [
+            "columns" => $columns,
+            "rows" => $rows,
+        ];
+        return view('Minesweeper.index',$data);
+
+    }
+
+
+
+    private function makeGrid(){
+
+
+
 
     }
 }

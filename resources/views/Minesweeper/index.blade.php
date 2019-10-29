@@ -71,6 +71,25 @@
                 </div>
 
 
+                <center>
+
+                    <table border="1" style="font-size: 30px;">
+                    @for($i = 0 ; $i < $rows ; $i++)
+
+                        <tr>
+                            @for($v = 0 ; $v < $columns ; $v++)
+                            <td>
+                                {{ $i }}-{{ $v }}
+                            </td>
+                            @endfor
+                        </tr>
+
+                    @endfor
+                    </table>
+                </center>
+
+
+
             </div>
 
     </body>
