@@ -78,7 +78,7 @@
 
                         <tr>
                             @for($v = 0 ; $v < $columns ; $v++)
-                            <td>
+                            <td id="{{ $i }}-{{ $v }}">
                                 {{ $i }}-{{ $v }}
                             </td>
                             @endfor
@@ -93,4 +93,18 @@
             </div>
 
     </body>
+    <script>
+
+        let cells = document.querySelectorAll('td');
+        for(let i = 0; i < cells.length ;i++){
+            cells[i].addEventListener("click",e=>{
+                e.stopPropagation()
+                e.preventDefault()
+                alert(e.target.id)
+            })
+        }
+
+
+
+    </script>
 </html>
