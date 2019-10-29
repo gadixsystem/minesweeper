@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/minesweeper','MineSweeperController@index');
+Route::get('/minesweeper','MinesweeperController@index');
+Route::post('/minesweeper/check','MinesweeperController@check')->name("minesweeper_check");

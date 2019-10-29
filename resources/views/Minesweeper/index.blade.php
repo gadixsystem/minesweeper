@@ -4,12 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Minesweeper</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
         <!-- Styles -->
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <style>
             html, body {
                 background-color: #fff;
@@ -91,17 +94,37 @@
 
 
             </div>
+            @csrf
 
     </body>
     <script>
 
-        let cells = document.querySelectorAll('td');
+        let cells = document.querySelectorAll('td')
+        // Laravel Token!
+        let _token = document.getElementsByName("_token")[0].value
         for(let i = 0; i < cells.length ;i++){
             cells[i].addEventListener("click",e=>{
                 e.stopPropagation()
                 e.preventDefault()
-                alert(e.target.id)
+                check(e.target.id)
             })
+        }
+
+
+        function check(cell){
+            console.log(_token)
+            $.ajax({
+                url: "{{ route('minesweeper_check') }}",
+                method: "POST",
+                data: {
+                    cell: cell,
+                    _token: _token
+                },
+                success:function(response){
+                    alert(response)
+                }
+            })
+
         }
 
 

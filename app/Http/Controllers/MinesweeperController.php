@@ -59,4 +59,10 @@ class MinesweeperController extends Controller
         return $grid;
 
     }
+
+    public function check(Request $request){
+
+        return response()
+        ->json($request->get("cell"));
+    }
 }
