@@ -142,6 +142,7 @@
                 },
                 success:function(response){
                     updateCell(cell_id,response)
+                    updateGrid()
                 }
             })
 
@@ -150,7 +151,6 @@
         function updateCell(cell_id,value){
 
             let cell = $("#"+cell_id)
-
 
 
             switch(value){
@@ -166,10 +166,39 @@
                 case "GAME OVER":
                     alert("GAME OVER!")
                 break;
+                case "X":
+                    break;
                 default:
                     cell.removeClass("default")
                     cell.html(`<center>${value}</center>`)
                 break;
+
+            }
+
+        }
+
+        function updateGrid(){
+            $.ajax({
+                url: "{{ route('minesweeper_user_grid') }}",
+                method: "GET",
+                success: function(response){
+
+                    renderGrid(response)
+                }
+            })
+        }
+
+        function renderGrid(response){
+
+            console.log(response[0].length)
+            console.log(response.length)
+
+            for(let i = 0;i < response.length;i++){
+                for(let v = 0; v < response[0].length; v++){
+                    let cell_id = `${i}-${v}`
+                    let value = response[i][v]
+                    updateCell(cell_id,value)
+                }
 
             }
 
