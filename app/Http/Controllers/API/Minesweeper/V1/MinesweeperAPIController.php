@@ -3,14 +3,34 @@
 namespace App\Http\Controllers\API\Minesweeper\V1;
 
 use Illuminate\Http\Request;
-use App\Engine\Minesweeper;
+use App\Engine\MinesweeperEngine;
 use App\Http\Controllers\Controller;
+use App\Minesweeper;
 
 class MinesweeperAPIController extends Controller
 {
     public function new()
     {
-        return "NEW METHOD";
+        $engine = new MinesweeperEngine();
+
+        $rows = 5;
+        $columns = 5;
+        $mines = 10;
+
+        $grid = $engine->makeGrid($columns,$rows,$mines);
+
+        $minesweeper =Minesweeper::create([
+            "grid" => $grid,
+            "userGrid" => $engine->makeUserGrid($grid),
+            "rows" => $rows,
+            "columns" => $columns,
+            "mines" => $mines,
+            "gameover" => FALSE,
+            "user_id" => NULL,
+            "time" => 0
+        ]);
+
+        return response()->json($minesweeper->id);
     }
 
 
@@ -25,7 +45,7 @@ class MinesweeperAPIController extends Controller
     public function check(Request $request)
     {
 
-        $minesweeper = new Minesweeper();
+        $minesweeper = new MinesweeperEngine();
 
         if ($request->session()->get("gameover")) {
             return response()

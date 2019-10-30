@@ -3,7 +3,7 @@
 namespace App\Engine;
 
 
-class Minesweeper
+class MinesweeperEngine
 {
 
 

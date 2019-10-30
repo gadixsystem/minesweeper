@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Engine\Minesweeper ;
+use App\Engine\MinesweeperEngine ;
 
 class MinesweeperController extends Controller
 {
     public function index(Request $request)
     {
 
-        $minesweeper = new Minesweeper();
+        $minesweeper = new MinesweeperEngine();
 
         $columns = $rows = 5;
 

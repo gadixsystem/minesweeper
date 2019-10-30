@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMinesweeperModelsTable extends Migration
+class CreateMinesweepersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMinesweeperModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('minesweeper_models', function (Blueprint $table) {
+        Schema::create('minesweepers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->longText("grid");
             $table->longText("userGrid");
@@ -34,6 +34,6 @@ class CreateMinesweeperModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('minesweeper_models');
+        Schema::dropIfExists('minesweepers');
     }
 }
