@@ -77,9 +77,22 @@
             .red {
                 background-color: #ff0000;
             }
+            .green {
+                background-color: #4CAF50;
+            }
 
             td{
                 min-width: 50px;
+            }
+            .btn {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
             }
 
 
@@ -110,6 +123,8 @@
                     @endfor
                     </table>
                 </center>
+                <br/>
+                <button class="btn btn-primary" value="N" id="button_mode">NORMAL</button>
 
 
 
@@ -121,6 +136,22 @@
 
         let current = {{ $current }}
         let cells = document.querySelectorAll('td')
+        let buttonMode = document.getElementById("button_mode")
+
+        var flagMode = false
+
+        buttonMode.addEventListener("click",e =>{
+            e.preventDefault()
+            e.stopPropagation()
+            flagMode = !flagMode
+            if(flagMode){
+                e.target.firstChild.data = "FLAG MODE"
+                e.target.value = "Y"
+            }else{
+                e.target.firstChild.data = "NORMAL"
+                e.target.value = "N"
+            }
+        })
         // Laravel Token!
         let _token = document.getElementsByName("_token")[0].value
         for(let i = 0; i < cells.length ;i++){
@@ -134,12 +165,15 @@
 
         function check(cell_id){
 
+
+
             $.ajax({
                 url: "{{ url('api/minesweeper/V1/check/')}}/"+current,
                 method: "POST",
                 data: {
                     cell: cell_id,
-                    _token: _token
+                    _token: _token,
+                    flagMode : $("#button_mode").val()
                 },
                 success:function(response){
                     updateCell(cell_id,response)
@@ -157,6 +191,7 @@
             switch(value){
                 case 0:
                     cell.removeClass("default")
+                    cell.removeClass("green")
                     cell.addClass("white")
                 break;
                 case "B":
@@ -167,10 +202,16 @@
                 case "GAME OVER":
                     alert("GAME OVER!")
                 break;
+                case "F":
+                    cell.removeClass("default")
+                    cell.addClass("green");
+
+                break;
                 case "X":
                     break;
                 default:
                     cell.removeClass("default")
+                    cell.removeClass("green")
                     cell.html(`<center>${value}</center>`)
                 break;
 

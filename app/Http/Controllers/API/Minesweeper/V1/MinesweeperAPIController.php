@@ -74,12 +74,14 @@ class MinesweeperAPIController extends Controller
             ->json($userGrid->mines);
     }
 
-    public function check($gridId)
+    public function check(Request $request,$gridId)
     {
 
         $minesweeper = new MinesweeperEngine();
 
         $current = Minesweeper::findOrFail($gridId);
+
+
 
         if ($current->gameover) {
             return response()
@@ -93,6 +95,14 @@ class MinesweeperAPIController extends Controller
         $grid = $current->grid;
 
         $userGrid = $current->userGrid;
+
+        // Flag!
+        if($request->get("flagMode") == "Y"){
+            $current->userGrid = $minesweeper->updateUserGrid($userGrid, $cell, "F");
+            $current->save();
+            return response()
+            ->json("F");
+        }
 
 
         if ($grid[$position[0]][$position[1]] == 1) {
