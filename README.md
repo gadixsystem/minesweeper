@@ -8,7 +8,9 @@ API Methods:
     Route::get('/grid/rows/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getRows');
     Route::get('/grid/columns/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getColumns');
     Route::get('/grid/mines/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getMines');
+    
 ============================================================
+
 /New -> Create a New Grid
 Method: POST
 By Default return ID Grid
