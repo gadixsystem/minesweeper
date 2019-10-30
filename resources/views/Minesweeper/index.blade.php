@@ -150,20 +150,25 @@
         function updateCell(cell_id,value){
 
             let cell = $("#"+cell_id)
-            cell.removeClass("default")
+
 
 
             switch(value){
                 case 0:
+                    cell.removeClass("default")
                     cell.addClass("white")
                 break;
                 case "B":
+                    cell.removeClass("default")
                     cell.addClass("red");
                     alert("GAME OVER!")
                 break;
+                case "GAME OVER":
+                    alert("GAME OVER!")
+                break;
                 default:
+                    cell.removeClass("default")
                     cell.html(`<center>${value}</center>`)
-
                 break;
 
             }

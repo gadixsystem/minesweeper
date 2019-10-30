@@ -88,10 +88,18 @@ class MinesweeperController extends Controller
     public function check(Request $request)
     {
 
+        if($request->session()->get("gameover")){
+            return response()
+            ->json("GAME OVER");
+        }
 
-        $position = explode('-', $request->get("cell"));
+        $cell = $request->get("cell");
+
+        $position = explode('-', $cell);
 
         $grid = $request->session()->get("grid");
+
+        $userGrid = $request->session()->get("userGrid");
 
 
         if ($grid[$position[0]][$position[1]] == 1) {
@@ -100,8 +108,8 @@ class MinesweeperController extends Controller
 
             $request->session()->push("gameover",true);
         } else {
-
-            $status = $this->calculate($grid, $request->get("cell"));
+            $status = $this->calculate($grid, $cell);
+            $request->session()->put("userGrid",$this->updateUserGrid($userGrid,$cell,$status));
         }
 
         return response()
@@ -188,7 +196,16 @@ class MinesweeperController extends Controller
             }
         }
 
-
         return $count;
+    }
+
+    private function updateUserGrid($userGrid,$cell,$value){
+
+        $position = explode('-', $cell);
+
+        $userGrid[$position[0]][$position[1]] = $value;
+
+        return $userGrid;
+
     }
 }
