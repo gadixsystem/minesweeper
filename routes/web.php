@@ -10,11 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/minesweeper','MinesweeperController@index');
+*/
+Route::get('/','MinesweeperController@index');
 Route::post('/minesweeper/play','MinesweeperController@renderGrid')->name("play");
 

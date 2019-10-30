@@ -47,8 +47,34 @@ class MinesweeperAPIController extends Controller
             ->json($userGrid->userGrid);
     }
 
+    public function getRows($gridId)
+    {
 
-    public function check(Request $request,$gridId)
+        $userGrid = Minesweeper::findOrFail($gridId);
+
+        return response()
+            ->json($userGrid->rows);
+    }
+
+    public function getColumns($gridId)
+    {
+
+        $userGrid = Minesweeper::findOrFail($gridId);
+
+        return response()
+            ->json($userGrid->columns);
+    }
+
+    public function getMines($gridId)
+    {
+
+        $userGrid = Minesweeper::findOrFail($gridId);
+
+        return response()
+            ->json($userGrid->mines);
+    }
+
+    public function check($gridId)
     {
 
         $minesweeper = new MinesweeperEngine();
