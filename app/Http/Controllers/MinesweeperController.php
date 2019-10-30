@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class MinesweeperController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $columns = $rows = 5;
 
@@ -15,25 +16,25 @@ class MinesweeperController extends Controller
             "rows" => $rows,
         ];
 
-        $request->session()->put("grid",$this->makeGrid($columns,$rows));
+        $request->session()->put("grid", $this->makeGrid($columns, $rows));
         //var_dump($request->session()->get("grid"));die();
-        return view('Minesweeper.index',$data);
-
+        return view('Minesweeper.index', $data);
     }
 
 
 
-    private function makeGrid($columns,$rows){
+    private function makeGrid($columns, $rows)
+    {
 
         $mines = 10;
 
         $cells = $columns * $rows;
 
-        $grid = Array();
+        $grid = array();
 
         for ($i = 0; $i < $rows; $i++) {
 
-            $line = Array();
+            $line = array();
 
             for ($v = 0; $v < $columns; $v++) {
                 if ($mines > 0) {
@@ -46,7 +47,7 @@ class MinesweeperController extends Controller
                     if ($mine == 1) {
                         $mines--;
                     }
-                }else{
+                } else {
                     $mine = 0;
                 }
                 array_push($line, $mine);
@@ -57,27 +58,103 @@ class MinesweeperController extends Controller
         }
 
         return $grid;
-
     }
 
-    public function check(Request $request){
+    public function check(Request $request)
+    {
 
-        $position = explode('-',$request->get("cell"));
+        $position = explode('-', $request->get("cell"));
 
         $grid = $request->session()->get("grid");
 
 
-        if($grid[$position[0]][$position[1]] == 1){
+        if ($grid[$position[0]][$position[1]] == 1) {
 
             $status = "OUCH!";
+        } else {
 
-        }else{
-
-            $status = "EMPTY";
+            $status = $this->calculate($grid, $request->get("cell"));
         }
 
 
         return response()
-        ->json($status);
+            ->json($status);
+    }
+
+    private function calculate($grid, $cell)
+    {
+
+        $count = 0;
+
+        $top = $bottom = FALSE;
+
+        $position = explode('-', $cell);
+
+        $row = $position[0];
+
+        $column = $position[1];
+
+        // Dimensions
+        $rows = sizeof($grid);
+
+        $columns = sizeof($grid[0]);
+
+        // Search in TOP
+
+        if ($row - 1 >= 0) {
+            $top = TRUE;
+            if ($grid[$row - 1][$column] == 1) {
+                $count++;
+            }
+        }
+
+        // Search in Bottom
+
+        if ($row + 1 < $rows) {
+            $bottom = TRUE;
+            if ($grid[$row + 1][$column] == 1) {
+                $count++;
+            }
+        }
+
+        // Search in Left
+
+        if ($column - 1 >= 0) {
+
+            if ($grid[$row][$column - 1] == 1) {
+                $count++;
+            }
+            if ($top) {
+                if ($grid[$row - 1][$column - 1] == 1) {
+                    $count++;
+                }
+            }
+            if ($bottom) {
+                if ($grid[$row + 1][$column - 1] == 1) {
+                    $count++;
+                }
+            }
+        }
+
+        // Search in Right
+
+        if ($column + 1 < $columns) {
+            if ($grid[$row][$column + 1] == 1) {
+                $count++;
+            }
+            if ($top) {
+                if ($grid[$row - 1][$column + 1] == 1) {
+                    $count++;
+                }
+            }
+            if ($bottom) {
+                if ($grid[$row + 1][$column + 1] == 1) {
+                    $count++;
+                }
+            }
+        }
+
+
+        return $count;
     }
 }
