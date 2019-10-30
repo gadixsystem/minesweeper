@@ -119,7 +119,7 @@
     </body>
     <script>
 
-        let current = 3
+        let current = {{ $current }}
         let cells = document.querySelectorAll('td')
         // Laravel Token!
         let _token = document.getElementsByName("_token")[0].value

@@ -18,6 +18,7 @@ class MinesweeperController extends Controller
 
         $currentID = $request->get("current");
 
+
         $current = Minesweeper::findOrFail($currentID);
 
         $columns = $current->columns;

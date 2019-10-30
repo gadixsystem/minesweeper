@@ -95,11 +95,11 @@
                 </div>
 
         <center>
-        <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 25rem;">
 
                 <div class="card-body">
                   <h5 class="card-title"></h5>
-                  <p class="card-text">Complete, call API, and enjoy!</p>
+                  <p class="card-text">Complete and enjoy!</p>
                 </div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
@@ -119,15 +119,69 @@
                   </li>
 
                 </ul>
-                <div class="card-body">
-                  <button class="btn btn-primary" id="btn_play">PLAY</button>
+                <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                                <label for="columns" >Saved Grid ID:</label>
+                                <input class="form-control" type="number" min="1" id="saved" name="saved" placeholder="1" value="1">
 
+                        </li>
+                </ul>
+                <div class="card-body">
+                  <button class="btn btn-primary" id="btn_play">PLAY New</button>
+                  <button class="btn btn-success" id="btn_saved">Play with Saved Grid</button>
                 </div>
               </div>
             </center>
+            <form id="playForm" action="{{ route('play') }}" method="POST">
+                @csrf
+                <input type="hidden" name="current" id="current" >
+            </form>
         </div>
     </body>
     <script>
+
+        let buttonPlay = document.getElementById("btn_play")
+        let buttonSaved = document.getElementById("btn_saved")
+        buttonPlay.addEventListener("click",e=>{
+            e.preventDefault()
+            e.stopPropagation()
+
+            getNewGrid()
+
+        })
+
+        buttonSaved.addEventListener("click", e => {
+            e.stopPropagation()
+            e.preventDefault()
+            play($("#saved").val())
+        })
+
+        function getNewGrid(){
+
+            data = {
+                'rows' : $("#rows").val(),
+                'columns' : $("#columns").val(),
+                'mines' : $("#mines").val(),
+            }
+
+
+            $.ajax({
+                url: "{{ url('api/minesweeper/V1/new')}}/",
+                method: "POST",
+                data:data,
+                success: function(response){
+
+                    play(response)
+                }
+            })
+
+        }
+
+        function play(id){
+            $("#current").val(id)
+            form = document.getElementById("playForm")
+            form.submit();
+        }
 
 
     </script>

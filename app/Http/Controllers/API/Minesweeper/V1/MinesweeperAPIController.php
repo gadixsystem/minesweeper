@@ -9,13 +9,17 @@ use App\Minesweeper;
 
 class MinesweeperAPIController extends Controller
 {
-    public function new()
+    public function new(Request $request)
     {
         $engine = new MinesweeperEngine();
 
-        $rows = 5;
-        $columns = 5;
-        $mines = 10;
+        $rows = $request->get("rows");
+        $columns = $request->get("columns");
+        $mines = $request->get("mines");
+
+        if($rows < 2 || $columns < 2 || $mines < 1 ){
+            return response()->json(["ERROR" => "Check values"]);
+        }
 
         $grid = $engine->makeGrid($columns,$rows,$mines);
 
