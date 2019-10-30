@@ -132,9 +132,9 @@
 
 
         function check(cell_id){
-
+            console.log("{{ route('api_minesweeper_check') }}")
             $.ajax({
-                url: "{{ route('minesweeper_check') }}",
+                url: "{{ route('api_minesweeper_check') }}",
                 method: "POST",
                 data: {
                     cell: cell_id,
@@ -179,7 +179,7 @@
 
         function updateGrid(){
             $.ajax({
-                url: "{{ route('minesweeper_user_grid') }}",
+                url: "{{ route('api_minesweeper_user_grid') }}",
                 method: "GET",
                 success: function(response){
 
