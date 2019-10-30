@@ -62,7 +62,22 @@ class MinesweeperController extends Controller
 
     public function check(Request $request){
 
+        $position = explode('-',$request->get("cell"));
+
+        $grid = $request->session()->get("grid");
+
+
+        if($grid[$position[0]][$position[1]] == 1){
+
+            $status = "OUCH!";
+
+        }else{
+
+            $status = "EMPTY";
+        }
+
+
         return response()
-        ->json($request->get("cell"));
+        ->json($status);
     }
 }
