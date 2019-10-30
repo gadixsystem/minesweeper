@@ -1,72 +1,76 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+#Simple Minesweeper API and Frontend
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+API Methods:
 
-## About Laravel
+    Route::post('new', 'API\Minesweeper\V1\MinesweeperAPIController@new');
+    Route::post('/check/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@check');
+    Route::get('/usergrid/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getUserGrid');
+    Route::get('/grid/rows/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getRows');
+    Route::get('/grid/columns/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getColumns');
+    Route::get('/grid/mines/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getMines');
+============================================================
+/New -> Create a New Grid
+Method: POST
+By Default return ID Grid
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+You need to Pass:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+rows: value > 2
+columns: value > 2
+mines: value > 1
+============================================================
+/check/{gridId}
+Method: POST
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This method provides what is necessary to check a cell inside the grid
 
-## Learning Laravel
+You need to pass:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+cell: string "$row-$column"
+Example:
+    2-4
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    Optional:
+    you can send parameter: flagMode "Y"
+    and this will mark the cell for review.
+===========================================================
+/usergrid/{gridId}
+Method: GET
+Returns the current grid (with Flags and cells)
 
-## Laravel Sponsors
+===========================================================
+/grid/rows/{gridId}
+Method: GET
+Returns the rows in the current grid
+===========================================================
+/grid/columns/{gridId}
+Method: GET
+Returns the columns in the current grid
+===========================================================
+/grid/mines/{gridId}
+Method: GET
+Returns the mines in the current grid
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+===========================================================
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+Installation:
 
-## Contributing
+You need to follow this steps:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- git clone
+- composer install
+- php artisan key:generate
+- Now you need to configure your DB Keys!
+- php artisan migrate
 
-## Security Vulnerabilities
+Enjoy!
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+===========================================================
+About Front End:
 
-## License
+The front end was only developed in order to test the API,
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The start screen shows the configuration options, and you can also play an unfinished game (not lost).
+
+As for the flags, you can place them by pressing the "Normal" button, this will send the Flag parameter to the api, and this will only record that it was marked for review,to check that cell, just press the normal mode and press the cell.
+
