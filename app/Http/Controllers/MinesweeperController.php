@@ -16,8 +16,12 @@ class MinesweeperController extends Controller
             "rows" => $rows,
         ];
 
-        $request->session()->put("grid", $this->makeGrid($columns, $rows));
-        //var_dump($request->session()->get("grid"));die();
+        $grid =  $this->makeGrid($columns, $rows);
+
+        $request->session()->put("grid",$grid);
+
+        $request->session()->put("userGrid",$this->makeUserGrid($grid));
+
         return view('Minesweeper.index', $data);
     }
 
@@ -60,6 +64,25 @@ class MinesweeperController extends Controller
         return $grid;
     }
 
+    public function makeUserGrid($grid){
+
+        $emptyRow = Array();
+        $emptyGrid = Array();
+
+        for($i=0;$i<sizeof($grid[0]);$i++){
+
+            array_push($emptyRow,"X");
+
+        }
+
+        for($i=0;$i<sizeof($grid);$i++){
+            array_push($emptyGrid,$emptyRow);
+        };
+
+        return $emptyGrid;
+
+    }
+
     public function check(Request $request)
     {
 
@@ -75,7 +98,6 @@ class MinesweeperController extends Controller
 
             $status = $this->calculate($grid, $request->get("cell"));
         }
-
 
         return response()
             ->json($status);
