@@ -22,6 +22,8 @@ class MinesweeperController extends Controller
 
         $request->session()->put("userGrid",$this->makeUserGrid($grid));
 
+        $request->session()->put("gameover",false);
+
         return view('Minesweeper.index', $data);
     }
 
@@ -86,6 +88,7 @@ class MinesweeperController extends Controller
     public function check(Request $request)
     {
 
+
         $position = explode('-', $request->get("cell"));
 
         $grid = $request->session()->get("grid");
@@ -94,6 +97,8 @@ class MinesweeperController extends Controller
         if ($grid[$position[0]][$position[1]] == 1) {
 
             $status = "B";
+
+            $request->session()->push("gameover",true);
         } else {
 
             $status = $this->calculate($grid, $request->get("cell"));
@@ -101,6 +106,13 @@ class MinesweeperController extends Controller
 
         return response()
             ->json($status);
+    }
+
+    public function getUserGrid(Request $request){
+
+        return response()
+            ->json($request->session()->get("userGrid"));
+
     }
 
     private function calculate($grid, $cell)

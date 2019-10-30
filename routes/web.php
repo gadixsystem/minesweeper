@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('/minesweeper','MinesweeperController@index');
 Route::post('/minesweeper/check','MinesweeperController@check')->name("minesweeper_check");
+Route::get('/minesweeper/usergrid','MinesweeperController@getUserGrid')->name("minesweeper_user_grid");
