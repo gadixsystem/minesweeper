@@ -93,7 +93,7 @@ class MinesweeperController extends Controller
 
         if ($grid[$position[0]][$position[1]] == 1) {
 
-            $status = "OUCH!";
+            $status = "B";
         } else {
 
             $status = $this->calculate($grid, $request->get("cell"));

@@ -64,6 +64,26 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+        </style>
+        <style>
+            /** Minesweeper Styles **/
+            .white {
+                background-color : #fff;
+            }
+            .default {
+                background-color: #636b6f;
+            }
+            .red {
+                background-color: #ff0000;
+            }
+
+            td{
+                min-width: 50px;
+            }
+
+
+
         </style>
     </head>
     <body>
@@ -81,8 +101,8 @@
 
                         <tr>
                             @for($v = 0 ; $v < $columns ; $v++)
-                            <td id="{{ $i }}-{{ $v }}">
-                                {{ $i }}-{{ $v }}
+                            <td id="{{ $i }}-{{ $v }}" class="default">
+                                &nbsp;
                             </td>
                             @endfor
                         </tr>
@@ -111,19 +131,42 @@
         }
 
 
-        function check(cell){
-            console.log(_token)
+        function check(cell_id){
+
             $.ajax({
                 url: "{{ route('minesweeper_check') }}",
                 method: "POST",
                 data: {
-                    cell: cell,
+                    cell: cell_id,
                     _token: _token
                 },
                 success:function(response){
-                    alert(response)
+                    updateCell(cell_id,response)
                 }
             })
+
+        }
+
+        function updateCell(cell_id,value){
+
+            let cell = $("#"+cell_id)
+            cell.removeClass("default")
+
+
+            switch(value){
+                case 0:
+                    cell.addClass("white")
+                break;
+                case "B":
+                    cell.addClass("red");
+                    alert("GAME OVER!")
+                break;
+                default:
+                    cell.html(`<center>${value}</center>`)
+
+                break;
+
+            }
 
         }
 
