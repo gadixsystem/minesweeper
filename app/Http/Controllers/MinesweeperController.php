@@ -3,33 +3,35 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Engine\MinesweeperEngine ;
+use App\Minesweeper;
 
 class MinesweeperController extends Controller
 {
-    public function index(Request $request)
+
+    public function index(){
+
+        return view('Minesweeper.index');
+    }
+
+    public function renderGrid(Request $request)
     {
 
-        $minesweeper = new MinesweeperEngine();
+        $currentID = $request->get("current");
 
-        $columns = $rows = 5;
+        $current = Minesweeper::findOrFail($currentID);
 
-        $mines = 1;
+        $columns = $current->columns;
+
+        $rows = $current->rows;
 
         $data = [
             "columns" => $columns,
             "rows" => $rows,
+            "current" => $currentID
         ];
 
-        $grid =  $minesweeper->makeGrid($columns, $rows,$mines);
 
-        $request->session()->put("grid", $grid);
-
-        $request->session()->put("userGrid", $minesweeper->makeUserGrid($grid));
-
-        $request->session()->put("gameover", false);
-
-        return view('Minesweeper.index', $data);
+        return view('Minesweeper.renderGrid', $data);
     }
 
 

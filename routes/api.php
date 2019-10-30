@@ -23,5 +23,4 @@ Route::prefix('minesweeper/V1')->group(function () {
     Route::post('/check/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@check');
     Route::get('/usergrid/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getUserGrid');
 });
-/*
-api/minesweeper/V1/check/{gridId}
+

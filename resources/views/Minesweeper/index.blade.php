@@ -8,7 +8,8 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <!-- Styles -->
 
 
@@ -88,122 +89,45 @@
     </head>
     <body>
 
-            <div class="content">
+        <div class="content">
                 <div class="title m-b-md">
                   Minesweeper
                 </div>
 
+        <center>
+        <div class="card" style="width: 18rem;">
 
-                <center>
+                <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <p class="card-text">Complete, call API, and enjoy!</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                        <label for="rows" >Rows</label>
+                        <input class="form-control" type="number" min="2" id="rows" name="rows" placeholder="5" value="5">
 
-                    <table border="1" style="font-size: 30px;">
-                    @for($i = 0 ; $i < $rows ; $i++)
+                  </li>
+                  <li class="list-group-item">
+                        <label for="columns" >Columns</label>
+                        <input class="form-control" type="number" min="2" id="columns" name="columns" placeholder="5" value="5">
 
-                        <tr>
-                            @for($v = 0 ; $v < $columns ; $v++)
-                            <td id="{{ $i }}-{{ $v }}" class="default">
-                                &nbsp;
-                            </td>
-                            @endfor
-                        </tr>
+                  </li>
+                  <li class="list-group-item">
+                        <label for="columns" >Mines</label>
+                        <input class="form-control" type="number" min="1" id="mines" name="mines" placeholder="1" value="1">
 
-                    @endfor
-                    </table>
-                </center>
+                  </li>
 
+                </ul>
+                <div class="card-body">
+                  <button class="btn btn-primary" id="btn_play">PLAY</button>
 
-
-            </div>
-            @csrf
-
+                </div>
+              </div>
+            </center>
+        </div>
     </body>
     <script>
-
-        let current = 3
-        let cells = document.querySelectorAll('td')
-        // Laravel Token!
-        let _token = document.getElementsByName("_token")[0].value
-        for(let i = 0; i < cells.length ;i++){
-            cells[i].addEventListener("click",e=>{
-                e.stopPropagation()
-                e.preventDefault()
-                check(e.target.id)
-            })
-        }
-
-
-        function check(cell_id){
-
-            $.ajax({
-                url: "{{ url('api/minesweeper/V1/check/')}}/"+current,
-                method: "POST",
-                data: {
-                    cell: cell_id,
-                    _token: _token
-                },
-                success:function(response){
-                    updateCell(cell_id,response)
-                    updateGrid()
-                }
-            })
-
-        }
-
-        function updateCell(cell_id,value){
-
-            let cell = $("#"+cell_id)
-
-
-            switch(value){
-                case 0:
-                    cell.removeClass("default")
-                    cell.addClass("white")
-                break;
-                case "B":
-                    cell.removeClass("default")
-                    cell.addClass("red");
-                    alert("GAME OVER!")
-                break;
-                case "GAME OVER":
-                    alert("GAME OVER!")
-                break;
-                case "X":
-                    break;
-                default:
-                    cell.removeClass("default")
-                    cell.html(`<center>${value}</center>`)
-                break;
-
-            }
-
-        }
-
-        function updateGrid(){
-            $.ajax({
-                url: "{{ url('api/minesweeper/V1/usergrid/')}}/"+current,
-                method: "GET",
-                success: function(response){
-
-                    renderGrid(response)
-                }
-            })
-        }
-
-        function renderGrid(response){
-
-
-
-            for(let i = 0;i < response.length;i++){
-                for(let v = 0; v < response[0].length; v++){
-                    let cell_id = `${i}-${v}`
-                    let value = response[i][v]
-                    updateCell(cell_id,value)
-                }
-
-            }
-
-        }
-
 
 
     </script>
