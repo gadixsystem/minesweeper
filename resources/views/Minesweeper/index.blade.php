@@ -119,6 +119,7 @@
     </body>
     <script>
 
+        let current = 3
         let cells = document.querySelectorAll('td')
         // Laravel Token!
         let _token = document.getElementsByName("_token")[0].value
@@ -132,9 +133,9 @@
 
 
         function check(cell_id){
-            console.log("{{ route('api_minesweeper_check') }}")
+
             $.ajax({
-                url: "{{ route('api_minesweeper_check') }}",
+                url: "{{ url('api/minesweeper/V1/check/')}}/"+current,
                 method: "POST",
                 data: {
                     cell: cell_id,
@@ -179,7 +180,7 @@
 
         function updateGrid(){
             $.ajax({
-                url: "{{ route('api_minesweeper_user_grid') }}",
+                url: "{{ url('api/minesweeper/V1/usergrid/')}}/"+current,
                 method: "GET",
                 success: function(response){
 
@@ -190,8 +191,7 @@
 
         function renderGrid(response){
 
-            console.log(response[0].length)
-            console.log(response.length)
+
 
             for(let i = 0;i < response.length;i++){
                 for(let v = 0; v < response[0].length; v++){

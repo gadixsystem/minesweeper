@@ -34,20 +34,24 @@ class MinesweeperAPIController extends Controller
     }
 
 
-    public function getUserGrid(Request $request)
+    public function getUserGrid(Request $request,$gridId)
     {
 
+        $userGrid = Minesweeper::findOrFail($gridId);
+
         return response()
-            ->json($request->session()->get("userGrid"));
+            ->json($userGrid->userGrid);
     }
 
 
-    public function check(Request $request)
+    public function check(Request $request,$gridId)
     {
 
         $minesweeper = new MinesweeperEngine();
 
-        if ($request->session()->get("gameover")) {
+        $current = Minesweeper::findOrFail($gridId);
+
+        if ($current->gameover) {
             return response()
                 ->json("GAME OVER");
         }
@@ -56,25 +60,30 @@ class MinesweeperAPIController extends Controller
 
         $position = explode('-', $cell);
 
-        $grid = $request->session()->get("grid");
+        $grid = $current->grid;
 
-        $userGrid = $request->session()->get("userGrid");
+        $userGrid = $current->userGrid;
 
 
         if ($grid[$position[0]][$position[1]] == 1) {
 
             $status = "B";
 
-            $request->session()->push("gameover", true);
+            $current->gameover = TRUE;
+
         } else {
             $status = $minesweeper->calculate($grid, $cell);
 
             if ($status == 0) {
-                $request->session()->put("userGrid", $minesweeper->calculateAdjacentMines($grid, $userGrid, $cell));
+
+                $current->userGrid = $minesweeper->calculateAdjacentMines($grid, $userGrid, $cell);
+
             } else {
-                $request->session()->put("userGrid", $minesweeper->updateUserGrid($userGrid, $cell, $status));
+                $current->userGrid = $minesweeper->updateUserGrid($userGrid, $cell, $status);
             }
         }
+
+        $current->save();
 
         return response()
             ->json($status);
