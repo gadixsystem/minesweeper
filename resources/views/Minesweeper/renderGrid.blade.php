@@ -244,7 +244,8 @@
             }
 
         }
-
+        
+        updateGrid();
 
 
     </script>
