@@ -8,17 +8,21 @@ API Methods:
     Route::get('/grid/rows/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getRows');
     Route::get('/grid/columns/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getColumns');
     Route::get('/grid/mines/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getMines');
+    
 ============================================================
+
 /New -> Create a New Grid
 Method: POST
 By Default return ID Grid
 
 You need to Pass:
 
-rows: value > 2
-columns: value > 2
-mines: value > 1
+    rows: value > 2
+    columns: value > 2
+    mines: value > 1
+    
 ============================================================
+
 /check/{gridId}
 Method: POST
 
@@ -34,19 +38,25 @@ Example:
     you can send parameter: flagMode "Y"
     and this will mark the cell for review.
 ===========================================================
+
 /usergrid/{gridId}
 Method: GET
 Returns the current grid (with Flags and cells)
 
 ===========================================================
+
 /grid/rows/{gridId}
 Method: GET
 Returns the rows in the current grid
+
 ===========================================================
+
 /grid/columns/{gridId}
 Method: GET
 Returns the columns in the current grid
+
 ===========================================================
+
 /grid/mines/{gridId}
 Method: GET
 Returns the mines in the current grid
@@ -66,6 +76,7 @@ You need to follow this steps:
 Enjoy!
 
 ===========================================================
+
 About Front End:
 
 The front end was only developed in order to test the API,
