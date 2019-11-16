@@ -84,8 +84,8 @@
             td{
                 min-width: 50px;
             }
-            .btn {
-                background-color: #4CAF50; /* Green */
+            .btn{
+
                 border: none;
                 color: white;
                 padding: 15px 32px;
@@ -93,6 +93,12 @@
                 text-decoration: none;
                 display: inline-block;
                 font-size: 16px;
+            }
+            .btn-primary{
+                background-color: #4CAF50; /* Green */
+            }
+            .btn-new{
+                background-color: #3333FF; /* Blue */
             }
 
 
@@ -105,6 +111,7 @@
                 <div class="title m-b-md">
                   Minesweeper
                 </div>
+                <h2>Game ID #{{ $current }}</h2>
 
 
                 <center>
@@ -124,6 +131,7 @@
                     </table>
                 </center>
                 <br/>
+                <button class="btn btn-new" value="N" id="button_new">NEW GAME</button>
                 <button class="btn btn-primary" value="N" id="button_mode">NORMAL</button>
 
 
@@ -137,6 +145,7 @@
         let current = {{ $current }}
         let cells = document.querySelectorAll('td')
         let buttonMode = document.getElementById("button_mode")
+        let buttonNew = document.getElementById("button_new")
 
         var flagMode = false
 
@@ -151,6 +160,13 @@
                 e.target.firstChild.data = "NORMAL"
                 e.target.value = "N"
             }
+        })
+
+        buttonNew.addEventListener("click",e=>{
+            e.preventDefault()
+            e.stopPropagation()
+            alert("Your game ID is "+current)
+            window.location = "/"
         })
         // Laravel Token!
         let _token = document.getElementsByName("_token")[0].value
@@ -202,6 +218,9 @@
                 case "GAME OVER":
                     alert("GAME OVER!")
                 break;
+                case "WIN":
+                    alert("YOU WIN!")
+                break;
                 case "F":
                     cell.removeClass("default")
                     cell.addClass("green");
@@ -212,7 +231,7 @@
                 default:
                     cell.removeClass("default")
                     cell.removeClass("green")
-                    cell.html(`<center>${value}</center>`)
+                    cell.html(htmlNumberColor(value))
                 break;
 
             }
@@ -245,6 +264,29 @@
 
         }
 
+        updateGrid();
+
+        function htmlNumberColor(value){
+            color = ""
+            switch(value){
+                case 1:
+                    color = "color='blue'"
+                break;
+                case 2:
+                    color = "color='green'"
+                break;
+                case 3:
+                    color = "color='red'"
+                break;
+                default:
+                    color = "color='maroon'"
+                break;
+            }
+
+            return `<center><strong><font ${color}>${value}</font></strong></center>`
+
+
+        }
 
 
     </script>

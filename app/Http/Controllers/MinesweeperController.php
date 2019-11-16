@@ -35,6 +35,16 @@ class MinesweeperController extends Controller
         return view('Minesweeper.renderGrid', $data);
     }
 
+    public function renderTableGrids(Request $request){
 
+        $grids = Minesweeper::paginate(10);
+
+        $data = [
+            "grids" => $grids
+        ];
+
+        return view('Minesweeper.tableGrids',$data);
+
+    }
 
 }

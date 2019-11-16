@@ -99,33 +99,35 @@ class MinesweeperAPIController extends Controller
         // Flag!
         if($request->get("flagMode") == "Y"){
             $current->userGrid = $minesweeper->updateUserGrid($userGrid, $cell, "F");
-            $current->save();
-            return response()
-            ->json("F");
-        }
+            $status = "F";
+        }else{
+            if ($grid[$position[0]][$position[1]] == 1) {
 
+                $status = "B";
 
-        if ($grid[$position[0]][$position[1]] == 1) {
-
-            $status = "B";
-
-            $current->gameover = TRUE;
-
-        } else {
-            $status = $minesweeper->calculate($grid, $cell);
-
-            if ($status == 0) {
-
-                $current->userGrid = $minesweeper->calculateAdjacentMines($grid, $userGrid, $cell);
+                $current->gameover = TRUE;
 
             } else {
-                $current->userGrid = $minesweeper->updateUserGrid($userGrid, $cell, $status);
+                $status = $minesweeper->calculate($grid, $cell);
+
+                if ($status == 0) {
+
+                    $current->userGrid = $minesweeper->calculateAdjacentMines($grid, $userGrid, $cell);
+
+                } else {
+                    $current->userGrid = $minesweeper->updateUserGrid($userGrid, $cell, $status);
+                }
             }
         }
 
         $current->save();
 
+        if($minesweeper->checkWin($current)){
+            $status = "WIN";
+        }
+
         return response()
             ->json($status);
     }
+
 }

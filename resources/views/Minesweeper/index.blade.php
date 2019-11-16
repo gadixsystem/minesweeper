@@ -11,8 +11,6 @@
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <!-- Styles -->
-
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <style>
             html, body {
@@ -130,6 +128,10 @@
                   <button class="btn btn-primary" id="btn_play">PLAY New</button>
                   <button class="btn btn-success" id="btn_saved">Play with Saved Grid</button>
                 </div>
+                <div class="card-body">
+
+                    <button class="btn btn-secondary" id="btn_old">View Old Grids</button>
+                  </div>
               </div>
             </center>
             <form id="playForm" action="{{ route('play') }}" method="POST">
@@ -142,6 +144,7 @@
 
         let buttonPlay = document.getElementById("btn_play")
         let buttonSaved = document.getElementById("btn_saved")
+        let buttonOldGrids = document.getElementById("btn_old")
         buttonPlay.addEventListener("click",e=>{
             e.preventDefault()
             e.stopPropagation()
@@ -154,6 +157,12 @@
             e.stopPropagation()
             e.preventDefault()
             play($("#saved").val())
+        })
+
+        buttonOldGrids.addEventListener("click",e=>{
+            e.stopPropagation();
+            e.preventDefault();
+            window.location = "{{ route('grids') }}"
         })
 
         function getNewGrid(){
