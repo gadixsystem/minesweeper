@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('minesweeper/V1')->group(function () {
     Route::post('new', 'API\Minesweeper\V1\MinesweeperAPIController@new');
-    Route::post('/check/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@check');
+    Route::put('/check/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@check');
     Route::get('/usergrid/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getUserGrid');
     Route::get('/grid/rows/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getRows');
     Route::get('/grid/columns/{gridId}', 'API\Minesweeper\V1\MinesweeperAPIController@getColumns');

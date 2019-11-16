@@ -185,7 +185,7 @@
 
             $.ajax({
                 url: "{{ url('api/minesweeper/V1/check/')}}/"+current,
-                method: "POST",
+                method: "PUT",
                 data: {
                     cell: cell_id,
                     _token: _token,
