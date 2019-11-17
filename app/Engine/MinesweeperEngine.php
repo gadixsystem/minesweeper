@@ -12,11 +12,18 @@ class MinesweeperEngine
 
         $cells = $columns * $rows;
 
-        $mixMines = array_rand(range(1, $cells), $mines);
+        $positions = range(1, $cells);
+        $mixKeys = array_rand($positions, $mines);
+        $mixMines = array();
+        if ($mines > 1) {
+            foreach ($mixKeys as $key) {
 
-        if($mines == 1){
-            $mixMines = Array($mixMines);
+                array_push($mixMines, $positions[$key]);
+            }
+        }else{
+            array_push($mixMines,$positions[$mixKeys]);
         }
+
         $cell = 1;
 
         $grid = array();
@@ -296,28 +303,27 @@ class MinesweeperEngine
 
         $grid = $current->grid;
 
-        if($current->gameover){
+        if ($current->gameover) {
 
             return FALSE;
-
         }
 
         $win = TRUE;
 
         for ($i = 0; $i < $rows; $i++) {
 
-            if(!$win){
+            if (!$win) {
                 break;
             }
 
             for ($v = 0; $v < $columns; $v++) {
 
-                if ($userGrid[$i][$v] !== "X" ) {
+                if ($userGrid[$i][$v] !== "X") {
 
                     if ($userGrid[$i][$v] === "F" && $grid[$i][$v] === 1) {
                         $mines--;
                     }
-                }else{
+                } else {
 
                     $win = FALSE;
                     break;
@@ -325,7 +331,7 @@ class MinesweeperEngine
             }
         }
 
-        if($win &&  $mines == 0){
+        if ($win &&  $mines == 0) {
             return TRUE;
         }
         return FALSE;

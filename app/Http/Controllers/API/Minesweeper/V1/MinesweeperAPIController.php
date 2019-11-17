@@ -20,6 +20,9 @@ class MinesweeperAPIController extends Controller
         if($rows < 2 || $columns < 2 || $mines < 1 ){
             return response()->json(["ERROR" => "Check values"]);
         }
+        if($rows*$columns < $mines){
+            return response()->json(["ERROR" => "Too many mines!"]);
+        }
 
         $grid = $engine->makeGrid($columns,$rows,$mines);
 
