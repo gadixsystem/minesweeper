@@ -1,5 +1,8 @@
 #Simple Minesweeper API and Frontend
 
+#HacktoberFest Update
+Now you can play this game here https://minesweeper.gadix.ar
+
 API Methods:
 
     Route::post('new', 'API\Minesweeper\V1\MinesweeperAPIController@new');
